@@ -1,7 +1,6 @@
 require('dotenv').config();
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const webpack = require('webpack');
@@ -17,7 +16,7 @@ let compressOptions = {
   conditionals: true,
   compress: {
     global_defs: {
-        '@console.log': 'alert'
+      '@console.log': 'alert'
     },
     passes: 2
   },
@@ -33,14 +32,14 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
-    filename: '[name].[hash].js'
+    filename: '[name].js'
   },
   resolve: {
     extensions: ['*', '.js', '.jsx', '.json', '.scss', '.css'],
     alias: {
       '@': path.resolve(__dirname, 'src'),
-      'scss': path.resolve(__dirname, 'src/public/scss'),
-      'css': path.resolve(__dirname, 'src/public/css')
+      scss: path.resolve(__dirname, 'src/public/scss'),
+      css: path.resolve(__dirname, 'src/public/css')
     }
   },
   devServer: {
@@ -74,40 +73,17 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        use: [
-          {
-            loader: 'html-loader',
-            options: { minimize: true }
-          }
-        ]
-      },
-      {
-        test:/\.(s*)css$/,
-        include: /node_modules/,
-        use: ExtractTextPlugin.extract({
-          use: [
-            { loader: 'css-loader', options: { minimize: true } },
-            { loader: 'sass-loader', options: { minimize: true } }
-          ],
-          fallback: 'style-loader'
-        })
+        use: [{ loader: 'html-loader', options: { minimize: true } }]
       },
       {
         test: /\.(json|xml|svg|png|jpe?g|gif|ico)$/i,
         use: [
-          { loader: 'file-loader', options: {name: '[path][name].[ext]'} }
+          { loader: 'file-loader', options: { name: '[path][name].[ext]' } }
         ]
       },
       {
-        test: /\.(eot|otf|svg|ttf|woff|woff2)(\?[\s\S]+)?$/,
-        exclude: /node_modules/,
-        use: [{
-          loader: 'file-loader',
-          options: {
-            name: 'fonts/[name].[hash].[ext]'
-          }
-        }],
-        include: path.join(__dirname, 'src/public', 'fonts')
+        test: /\.css$/,
+        use: [ 'style-loader', 'css-loader' ]
       }
     ]
   },
@@ -120,7 +96,7 @@ module.exports = {
         uglifyOptions: {
           ecma: 8,
           warnings: false,
-          compress: {...compressOptions},
+          compress: { ...compressOptions },
           mangle: true,
           output: {
             beautify: false,
@@ -136,7 +112,7 @@ module.exports = {
         sourceMap: true
       }),
       new OptimizeCssAssetsPlugin({
-        assetNameRegExp:/\.css$/g,
+        assetNameRegExp: /\.css$/g,
         cssProcessor: require('cssnano'),
         cssProcessorOptions: { discardComments: { removeAll: true } },
         canPrint: true
@@ -170,12 +146,6 @@ module.exports = {
     fs: 'empty'
   },
   plugins: [
-    new ExtractTextPlugin({
-      filename:  (getPath) => {
-        return getPath('css/[name].[hash].css').replace('css/js', 'css');
-      },
-      allChunks: true
-    }),
     new Dotenv({
       path: path.resolve(process.cwd(), '.env'),
       safe: true,
