@@ -5,7 +5,6 @@ const Dotenv = require('dotenv-webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const pwd = process.cwd();
-console.log('tag', path.resolve(pwd, 'src', 'public', 'fonts'));
 module.exports = [
   new ExtractTextPlugin({
     filename:  (getPath) => {
