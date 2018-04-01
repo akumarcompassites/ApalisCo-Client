@@ -1,0 +1,1 @@
+export const SHOW_ACTIVE_USERS = 'SHOW__ACTIVE_USERS';
