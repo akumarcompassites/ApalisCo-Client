@@ -1,6 +1,7 @@
 require('dotenv').config();
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const webpack = require('webpack');
@@ -57,7 +58,8 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader'
-        }
+        },
+        include: path.resolve(__dirname, 'src')
       },
       {
         test: /^(?!.*\.{test,min}\.js$).*\.js$/,
@@ -82,8 +84,77 @@ module.exports = {
         ]
       },
       {
-        test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
+        test: /\.(eot|otf|svg|ttf|woff|woff2)(\?[\s\S]+)?$/,
+        exclude: /node_modules/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: 'fonts/[name].[hash].[ext]'
+          }
+        }],
+        include: path.join(__dirname, 'src/public', 'fonts')
+      },
+      {
+        test: /\.(eot|otf|svg|ttf|woff|woff2)(\?[\s\S]+)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000
+        }
+      },
+      // {
+      //   test: /\.css$/,
+      //   use: [
+      //     'style-loader',
+      //     {
+      //       loader: 'css-loader',
+      //       options: {
+      //         modules: true,
+      //         minimize: true,
+      //         sourceMap: true,
+      //         camelCase: true,
+      //         localIdentName: '[name]__[local]___[hash:base64:5]',
+      //         importLoaders: 2 // 0 => no loaders (default); 1 => postcss-loader; 2 => postcss-loader, sass-loader
+      //       }
+      //     },
+      //     {
+      //       loader: 'postcss-loader',
+      //       options: {
+      //         plugins: () => [require('autoprefixer')]
+      //       }
+      //     },
+      //     'sass-loader'
+      //   ]
+      // }
+      {
+        test:/\.(s*)css$/,
+        use: ExtractTextPlugin.extract({
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                // minimize: true,
+                // modules: true,
+                // sourceMap: true,
+                camelCase: true,
+                localIdentName: '[name]__[local]___[hash:base64:5]'
+                // importLoaders: 2
+              }
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                // plugins: () => [require('autoprefixer')]
+                plugins: () => {
+                  require('rucksack-css')({
+                    autoprefixer: true
+                  });
+                }
+              }
+            },
+            { loader: 'sass-loader', options: { minimize: true } }
+          ],
+          fallback: 'style-loader'
+        })
       }
     ]
   },
@@ -146,6 +217,12 @@ module.exports = {
     fs: 'empty'
   },
   plugins: [
+    new ExtractTextPlugin({
+      filename:  (getPath) => {
+        return getPath('css/[name].[hash].css').replace('css/js', 'css');
+      },
+      allChunks: true
+    }),
     new Dotenv({
       path: path.resolve(process.cwd(), '.env'),
       safe: true,
