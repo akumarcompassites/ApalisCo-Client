@@ -13,13 +13,14 @@ for (let key in envConfig) {
 }
 
 const port = Number(process.env.PORT || '8080');
-const distPath = path.resolve(__dirname, 'dist');
+const distPath = path.resolve(process.cwd(), 'dist');
 
 if (process.env.NODE_ENV !== 'production') {
 	const webpack = require('webpack');
 	const webpackDevMiddleware = require('webpack-dev-middleware');
   const webpackHotMiddleware = require('webpack-hot-middleware');
-  const config = require('../webpack.config'); // include here dev webpack config file
+  const configFile = path.resolve(process.cwd(), 'build', 'webpack.config');
+  const config = require(configFile);
 	const compiler = webpack(config);
 	server.use(webpackDevMiddleware(compiler, {
 			noInfo: true,

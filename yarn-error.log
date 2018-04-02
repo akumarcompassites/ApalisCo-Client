@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/node /usr/share/yarn/bin/yarn.js run start
+  /usr/bin/node /usr/share/yarn/bin/yarn.js run server:on
 
 PATH: 
   /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin
@@ -22,7 +22,7 @@ npm manifest:
     "author": "Amarkant Kumar <amarkantk14@gmail.com>",
     "license": "MIT",
     "scripts": {
-      "server:on": "cross-env NODE_ENV='development' nodemon bin/server.js",
+      "server:on": "cross-env NODE_ENV='development' --mode production nodemon bin/server.js",
       "start": "cross-env NODE_ENV='development' webpack-dev-server --config ./build/webpack.config.js --mode development --hot --open --progress --inline",
       "dev": "cross-env webpack --mode development",
       "build": "cross-env webpack -p --mode production",
@@ -8787,7 +8787,7 @@ Trace:
   Error: Command failed.
   Exit code: 1
   Command: sh
-  Arguments: -c cross-env NODE_ENV='development' webpack-dev-server --config ./build/webpack.config.js --mode development --hot --open --progress --inline
+  Arguments: -c cross-env NODE_ENV='development' --mode production nodemon bin/server.js
   Directory: /home/amarkant/CodeBox/ApalisCo-Client
   Output:
   
