@@ -27,5 +27,8 @@ module.exports = [
     template: path.resolve(pwd, 'src') + '/index.html',
     filename: path.resolve(pwd, 'dist') + '/index.html',
     inject: 'body'
+  }),
+  new webpack.HotModuleReplacementPlugin({
+    multiStep: true
   })
 ];

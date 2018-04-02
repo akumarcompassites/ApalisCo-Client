@@ -14,8 +14,8 @@ for (let key in envConfig) {
 
 const port = Number(process.env.PORT || '8080');
 const distPath = path.resolve(process.cwd(), 'dist');
-
-if (process.env.NODE_ENV !== 'production') {
+console.log(process.env.NODE_ENV);
+if (process.env.NODE_ENV === 'production') {
 	const webpack = require('webpack');
 	const webpackDevMiddleware = require('webpack-dev-middleware');
   const webpackHotMiddleware = require('webpack-hot-middleware');

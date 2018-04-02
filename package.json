@@ -6,7 +6,7 @@
   "author": "Amarkant Kumar <amarkantk14@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "server:on": "cross-env NODE_ENV='development' nodemon bin/server.js",
+    "server:on": "cross-env NODE_ENV='production' nodemon bin/server.js",
     "start": "cross-env NODE_ENV='development' webpack-dev-server --config ./build/webpack.config.js --mode development --hot --open --progress --inline",
     "dev": "cross-env webpack --mode development",
     "build": "cross-env webpack -p --mode production",

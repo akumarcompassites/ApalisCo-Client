@@ -6,22 +6,6 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const wepackPlugin = require('./webpack.plugin');
 const wepackLoaderRules = require('./webpack.loder');
 
-let compressOptions = {
-  arrows: true,
-  booleans: true,
-  comparisons: true,
-  collapse_vars: true,
-  computed_props: true,
-  conditionals: true,
-  compress: {
-    global_defs: {
-      '@console.log': 'alert'
-    },
-    passes: 2
-  },
-  reduce_vars: true
-};
-
 module.exports = {
   watch: true,
   devtool: 'source-map',
@@ -61,7 +45,7 @@ module.exports = {
         uglifyOptions: {
           ecma: 8,
           warnings: false,
-          compress: { ...compressOptions },
+          compress: false,
           mangle: true,
           output: {
             beautify: false,
