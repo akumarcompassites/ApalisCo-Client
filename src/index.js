@@ -10,9 +10,6 @@ import NotFound from '@/components/Pages/NotFound';
 import 'scss/style.scss';
 import 'scss/appStyles.scss';
 import 'css/main.css';
-// import 'semantic-ui-css/semantic.min.css';
-// import { Button } from 'semantic-ui-react';
-
 
 const UsersPage = () => <div>Users Page
   <Link to="/"><button> Go To Home</button></Link>
